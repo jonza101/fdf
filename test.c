@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2018/12/18 20:31:36 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2018/12/23 19:35:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,26 @@
 
 #include <stdlib.h>
 
-typedef	struct s_mlx
+typedef	struct	s_point
+{
+	int xo;
+	int yo;
+}				t_point;
+
+typedef	struct	s_mlx
 {
 	void	*mlx;
 	void	*win;
 	int 	xo;
 	int		yo;
 
-	int 	x_c;
-	int		y_c;
+	t_point **points;
 
+	int delta_x;
+	int delta_y;
 
-/*	REFLECTION	*/
-/*##################################################################*/
+	int x_b;
+	int y_b;
 
 	int		new_x;
 	int		new_y;
@@ -37,8 +44,6 @@ typedef	struct s_mlx
 	int 	new_row_yo;
 	int		new_row_x;
 	int		new_row_y;
-	
-/*##################################################################*/
 
 
 	int		mouse_click_count;
@@ -93,7 +98,7 @@ int		mouse_button_check(int button)
 
 void	draw_circle(int x, int y, t_mlx *mlx)
 {
-	int radius = 20;
+	int radius = 4;
 	int c_x = 0;
 	int c_y = radius;
 	int delta = 1 - 2 * radius;
@@ -118,133 +123,6 @@ void	draw_circle(int x, int y, t_mlx *mlx)
 		delta += 2 * (++c_x - c_y--);
 	}
 }
-
-/*	OPPOSITE	*/
-/*------------------------------------------------------------------*/
-
-void	ft_opp_draw(int x, int y, t_mlx *mlx)
-{
-	int opp_xo = mlx->xo;
-	int opp_yo = mlx->yo;
-
-	int angle_x = ft_abs(x - mlx->xo);
-	int angle_y = ft_abs(y - mlx->yo);
-	int error = angle_x - angle_y;
-
-	int delta_x;
-	int delta_y;
-
-	if (mlx->xo < x)
-		delta_x = 1;
-	else
-		delta_x = -1;
-	if (mlx->yo < y)
-		delta_y = 1;
-	else
-		delta_y = -1;
-	
-	while (mlx->xo != x)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->xo, mlx->yo, (255 << 16) + 255);
-		mlx_pixel_put(mlx->mlx, mlx->win, opp_xo, opp_yo, (255 << 16) + 255);
-		if (error * 2 > -angle_y)
-		{
-			error -= angle_y;
-			mlx->xo += delta_x;
-			opp_xo -= delta_x;
-		}
-		if (error * 2 < angle_x)
-		{
-			error += angle_x;
-			mlx->yo += delta_y;
-			opp_yo -= delta_y;
-		}
-	}
-	mlx->draw_count++;
-	if (mlx->draw_count == 1)
-	{
-		int temp_x;
-		int temp_y;
-		mlx->xo = mlx->x_c;
-		mlx->yo = mlx->y_c;
-		if (delta_x == 1)
-			temp_x = mlx->xo + ft_abs(x - mlx->xo);
-		else
-			temp_x = mlx->xo - ft_abs(x - mlx->xo);
-		if (delta_y == 1)
-			temp_y = mlx->yo - ft_abs(y - mlx->yo);
-		else
-			temp_y = mlx->yo + ft_abs(y - mlx->yo);
-		mlx_pixel_put(mlx->mlx, mlx->win, temp_x, temp_y, (255 << 16) + 255);
-		//printf("nx: %d		ny: %d\n", temp_x, temp_y);
-		ft_opp_draw(temp_x, temp_y, mlx);
-	}
-	mlx->draw_count = 0;
-	mlx->mouse_click_count = 0;
-}
-
-/*------------------------------------------------------------------*/
-
-
-/*	PARALLEL	*/
-/*==================================================================*/
-void	ft_par_draw(int x, int y, t_mlx *mlx)
-{
-	int xo = mlx->xo;
-	int yo = mlx->yo;
-
-	int par_xo = mlx->xo + ft_abs(x - mlx->xo);
-	int par_yo = mlx->yo + ft_abs(y - mlx->yo);
-	int par_x = par_xo + ft_abs(x - mlx->xo);
-	int par_y = par_yo - ft_abs(y - mlx->yo);
-
-	int angle_x = ft_abs(x - mlx->xo);
-	int angle_y = ft_abs(y - mlx->yo);
-	int error = angle_x - angle_y;
-	int delta_x;
-	int delta_y;
-
-	if (mlx->xo < x)
-		delta_x = 1;
-	else
-		delta_x = -1;
-	if (mlx->yo < y)
-		delta_y = 1;
-	else
-		delta_y = -1;
-	
-	printf("par_xo: %d		par_yo: %d\n", par_xo, par_yo);
-	printf("par_x: %d		par_y: %d\n", par_x, par_y);
-	while (mlx->xo != x)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->xo, mlx->yo, (255 << 16) + 255);
-		mlx_pixel_put(mlx->mlx, mlx->win, par_xo, par_yo, (255 << 16) + 255);
-		if (error * 2 > -angle_y)
-		{
-			error -= angle_y;
-			mlx->xo += delta_x;
-			par_xo += delta_x;
-		}
-		if (error * 2 < angle_x)
-		{
-			error += angle_x;
-			mlx->yo += delta_y;
-			par_yo += delta_y;
-		}
-	}
-	mlx->draw_count++;
-	if (mlx->draw_count == 1)
-	{
-		mlx->xo = xo;
-		mlx->yo = yo;
-		printf("x: %d		y: %d\n", x, yo + ft_abs(y - yo));
-		ft_par_draw(x, yo - ft_abs(y - yo), mlx);
-	}
-	else
-		mlx->draw_count = 0;
-	mlx->mouse_click_count = 0;
-}
-/*==================================================================*/
 
 
 /*	REFLECTION	*/
@@ -308,8 +186,58 @@ void	ft_refl_draw(int x, int y, t_mlx *mlx)
 }
 /*##################################################################*/
 
+
+/*	ONE LINE	*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+void	ft_draw_line(int x, int y, t_mlx *mlx, int offset)
+{
+	// if (mlx->last_offset == offset)
+	// 	offset = 0;
+	// x += offset / 2;
+	// y -= offset;
+	// mlx->last_offset = offset;
+	int angle_x = ft_abs(x - mlx->xo);
+	int angle_y = ft_abs(y - mlx->yo);
+	int delta_x;
+	int delta_y;
+	int error = angle_x - angle_y;
+
+	if (x < mlx->xo)
+		delta_x = -1;
+	else
+		delta_x = 1;
+	if (y < mlx->yo)
+		delta_y = -1;
+	else
+		delta_y = 1;
+	mlx_pixel_put(mlx->mlx, mlx->win, x, y, (255 << 16) + 255);
+	while (mlx->xo != x || mlx->yo != y)
+	{
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->xo, mlx->yo, (255 << 16) + 255);
+		if (error * 2 > -angle_y)
+		{
+			error -= angle_y;
+			mlx->xo += delta_x;
+
+		}
+		else if (error * 2 < angle_x)
+		{
+			error += angle_x;
+			mlx->yo += delta_y;
+		}
+	}
+	//draw_circle(x, y, mlx);
+	mlx->xo = x;
+	mlx->yo = y;
+	draw_circle(mlx->xo, mlx->yo, mlx);
+	mlx->mouse_click_count = 0;
+}
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+
 int		mouse_press(int button, int x, int y, t_mlx *mlx)
 {
+	char ar[6] = "009900";
 	if (mouse_button_check(button) == 3)
 		printf("x: %d		y: %d\n", x, y);
 	if (mouse_button_check(button) == 2)
@@ -317,64 +245,123 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 	if (mouse_button_check(button) == 1)
 	{
 		mlx->mouse_click_count++;
-		if (mlx->mouse_click_count < 2)
-		{
-			mlx->xo = x;
-			mlx->yo = y;
-		}
+		// if (mlx->mouse_click_count < 2)
+		// {
+		// 	mlx->xo = x;
+		// 	mlx->yo = y;
+		// }
 		printf("click %d\n", mlx->mouse_click_count);
-		if (mlx->mouse_click_count == 2)
+		if (mlx->mouse_click_count == 1)
 		{
-			/*	OPPOSITE	*/
-			/*------------------------------------------------------------------*/
-			
-			// mlx->x_c = mlx->xo;
-			// mlx->y_c = mlx->yo;
-			// printf("xo: %d		yo: %d\n", mlx->xo, mlx->yo);
-			// printf("x: %d		y: %d\n\n", x, y);
-			// ft_opp_draw(x, y, mlx);
-			// mlx->xo = mlx->xo + ft_abs(x - mlx->x_c);
-			// mlx->yo = mlx->y_c;
-			// mlx->x_c = mlx->xo;
-			// mlx->y_c = mlx->yo;
-			// printf("xo: %d		yo: %d\n", mlx->xo, mlx->yo);
-			// printf("x: %d		y: %d\n", x, y);
-			// ft_opp_draw(x, y, mlx);
-
-			// printf("xo: %d		yo: %d\n", mlx->xo, mlx->yo);
-			// printf("x: %d		y: %d\n", x, y);
-
-			/*------------------------------------------------------------------*/
-
-
-			/*	REFLECTION	*/
-			/*##################################################################*/
-
-			int i = 0;
-			int j = 0;
-			mlx->new_x = x;
-			mlx->new_y = y;
-			while (i < 5)
+			mlx->xo = x;// + mlx->delta_x;
+			mlx->yo = y;// + mlx->delta_y;
+			// mlx->points[0][0].xo = x;
+			// mlx->points[0][0].yo = y;
+			// mlx->points[0][1].xo = x + mlx->delta_x;
+			// mlx->points[0][1].yo = y + mlx->delta_y;
+			// int delta_x = x - mlx->xo;
+			// int delta_y = y - mlx->yo;
+			int new_x = mlx->xo + mlx->delta_x;
+			int new_y = mlx->yo + mlx->delta_y;
+			// mlx->xo = x;
+			// mlx->yo = y;
+			mlx->x_b = mlx->xo;
+			mlx->y_b = mlx->yo;
+			int temp_x = 0;
+			int temp_y = 1;
+			while (temp_x < 6)
 			{
-				j = 0;
-				mlx->new_row_xo = mlx->xo - ft_abs(mlx->new_x - mlx->xo);
-				mlx->new_row_yo = mlx->yo + ft_abs(mlx->new_y - mlx->yo);
-				mlx->new_row_x = mlx->xo;
-				mlx->new_row_y = mlx->yo;
-				// printf("new_row_xo: %d		new_row_yo: %d\n", mlx->new_row_xo, mlx->new_row_yo);
-				// printf("new_row_x: %d		new_row_y: %d\n\n", mlx->new_row_x, mlx->new_row_y);
-				while (j < 10)
+				temp_y = 0;
+				mlx->new_row_xo = mlx->xo - mlx->delta_x;
+				mlx->new_row_yo = mlx->yo + mlx->delta_y;
+				mlx->new_row_x = new_x - ft_abs(new_x - mlx->new_row_xo);
+				mlx->new_row_y = new_y + ft_abs(new_y - mlx->new_row_yo);
+				while (temp_y < 10)
 				{
-					ft_refl_draw(mlx->new_x, mlx->new_y, mlx);
-					j++;
+					// mlx->points[temp_x][temp_y].xo = mlx->xo;
+					// mlx->points[temp_x][temp_y].yo = mlx->yo;
+					// printf("point xo: %d		point yo: %d\n", mlx->points[temp_x][temp_y].xo, mlx->points[temp_x][temp_y].yo);
+					// printf("temp_x: %d			temp_y: %d\n\n", temp_x, temp_y);
+
+					if (temp_x == 0 && temp_y == 0)
+					{
+						printf("A: xo: %d		yo: %d\n", mlx->xo, mlx->yo);
+						printf("A: x: %d		y: %d\n\n", new_x, new_y);
+					}
+					ft_draw_line(new_x, new_y, mlx, 0);
+					new_x += mlx->delta_x;
+					new_y += mlx->delta_y;
+					temp_y++;
 				}
 				mlx->xo = mlx->new_row_xo;
 				mlx->yo = mlx->new_row_yo;
-				mlx->new_x = mlx->new_row_x;
-				mlx->new_y = mlx->new_row_y;
-				i++;
+				new_x = mlx->new_row_x;
+				new_y = mlx->new_row_y;
+				printf("\n");
+				temp_x++;
 			}
+			mlx->xo = mlx->x_b;
+			mlx->yo = mlx->y_b;
+			new_x = mlx->x_b - mlx->delta_x;
+			new_y = mlx->y_b + mlx->delta_y;
+			temp_x = 0;
+			while (temp_x < 10)
+			{
+				temp_y = 0;
+				mlx->new_row_xo = mlx->xo + mlx->delta_x;
+				mlx->new_row_yo = mlx->yo + mlx->delta_y;
+				mlx->new_row_x = new_x + ft_abs(mlx->new_row_xo - new_x);
+				mlx->new_row_y = new_y + ft_abs(mlx->new_row_yo - new_y);
+				while (temp_y < 6)
+				{
+					if (temp_x == 0 && temp_y == 0)
+					{
+						printf("B: xo: %d		yo: %d\n", mlx->xo, mlx->yo);
+						printf("B: x: %d		y: %d\n\n", new_x, new_y);
+					}
+					ft_draw_line(new_x, new_y, mlx, 0);
+					new_x -= mlx->delta_x;
+					new_y += mlx->delta_y;
+					temp_y++;
+				}
+				mlx->xo = mlx->new_row_xo;
+				mlx->yo = mlx->new_row_yo;
+				new_x = mlx->new_row_x;
+				new_y = mlx->new_row_y;
+				temp_x++;
+			}
+			mlx->xo = mlx->x_b;
+			mlx->yo = mlx->y_b;
+			// printf("B: xo: %d		yo: %d\n", mlx->xo, mlx->yo);
+			// printf("B: x: %d		y: %d\n\n", mlx->xo, mlx->yo - 75);
+			ft_draw_line(mlx->xo, mlx->yo - 75, mlx, 0);
 
+			/*	REFLECTION	*/
+			/*##################################################################*/
+			// int i = 0;
+			// int j = 0;
+			// mlx->new_x = x;
+			// mlx->new_y = y;
+			// while (i < 5)
+			// {
+			// 	j = 0;
+			// 	mlx->new_row_xo = mlx->xo - ft_abs(mlx->new_x - mlx->xo);
+			// 	mlx->new_row_yo = mlx->yo + ft_abs(mlx->new_y - mlx->yo);
+			// 	mlx->new_row_x = mlx->xo;
+			// 	mlx->new_row_y = mlx->yo;
+			// 	// printf("new_row_xo: %d		new_row_yo: %d\n", mlx->new_row_xo, mlx->new_row_yo);
+			// 	// printf("new_row_x: %d		new_row_y: %d\n\n", mlx->new_row_x, mlx->new_row_y);
+			// 	while (j < 10)
+			// 	{
+			// 		ft_refl_draw(mlx->new_x, mlx->new_y, mlx);
+			// 		j++;
+			// 	}
+			// 	mlx->xo = mlx->new_row_xo;
+			// 	mlx->yo = mlx->new_row_yo;
+			// 	mlx->new_x = mlx->new_row_x;
+			// 	mlx->new_y = mlx->new_row_y;
+			// 	i++;
+			// }
 			/*##################################################################*/
 		}
 	}
@@ -406,8 +393,19 @@ int 	main(int argc, char const *argv[])
 	void	*win_mlx;
 	void	*win;
 	t_mlx	*mlx;
+	//t_point *points;
 
 	mlx = malloc(sizeof(t_mlx));
+	mlx->delta_x = 78;
+	mlx->delta_y = 45;
+	mlx->points = malloc(sizeof(t_point*) * 10);
+	int x = 0;
+	while (x < 6)
+	{
+		mlx->points[x] = malloc(sizeof(t_point) * 10);
+		x++;
+	}
+	
 	win_mlx = mlx_init();
 	win = mlx_new_window(win_mlx, 1750, 1400, "TEST");
 	mlx->mlx = win_mlx;
