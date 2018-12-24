@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2018/12/24 18:48:24 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2018/12/24 19:00:24 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,21 +265,16 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 			{
 				temp_y = 0;
 				printf("temp_x : %d\n\n", temp_x);
-				if (mlx->points[temp_x + 1][temp_x + 1].xo == -1 || mlx->points[temp_x + 1][temp_x + 1].yo == -1)
+				if (mlx->points[1][temp_x + 1].xo == -1 || mlx->points[1][temp_x + 1].yo == -1)
 				{
 					//ft_draw_line(new_x, new_y, mlx, 0, -1, -1);
 					flag = 1;
 				}
 
-				mlx->new_row_xo = mlx->points[temp_x][temp_x + 1].xo;
-				mlx->new_row_yo = mlx->points[temp_x][temp_x + 1].yo;
-				mlx->new_row_x = mlx->points[temp_x + 1][temp_x + 1].xo;
-				mlx->new_row_y = mlx->points[temp_x + 1][temp_x + 1].yo;
-
-				// mlx->new_row_xo = mlx->points[temp_x][temp_y + 1].xo;
-				// mlx->new_row_yo = mlx->points[temp_x][temp_y + 1].yo;
-				// mlx->new_row_x = mlx->points[temp_x + 1][temp_y + 1].xo;
-				// mlx->new_row_y = mlx->points[temp_x + 1][temp_y + 1].yo;
+				mlx->new_row_xo = mlx->points[0][temp_x + 1].xo;
+				mlx->new_row_yo = mlx->points[0][temp_x + 1].yo;
+				mlx->new_row_x = mlx->points[1][temp_x + 1].xo;
+				mlx->new_row_y = mlx->points[1][temp_x + 1].yo;
 
 				// mlx->new_row_xo = mlx->xo + mlx->delta_x;
 				// mlx->new_row_yo = mlx->yo + mlx->delta_y;
@@ -304,7 +299,7 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 					new_x = mlx->points[temp_y + 1][temp_x].xo;
 					new_y = mlx->points[temp_y + 1][temp_x].yo;
 
-					//printf("new x: %d		new y: %d\n", new_x, new_y);
+					printf("new x: %d		new y: %d\n", new_x, new_y);
 					
 					// new_x -= mlx->delta_x;
 					// new_y += mlx->delta_y;
