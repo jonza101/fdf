@@ -17,7 +17,16 @@ void	ft_zoom(t_mlx *mlx, int dir)
 	mlx_clear_window(mlx->mlx, mlx->win);
 	mlx->delta_y += dir;
 	mlx->delta_x = mlx->delta_y * 1.73;
-	mlx->y_offset = mlx->delta_y / 10;
+	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset  /  10;
+	ft_set_points(mlx->points[0][0].xo, mlx->points[0][0].yo, mlx);
+	ft_draw_wire(mlx);
+}
+
+void	ft_height(t_mlx *mlx, int dir)
+{
+	mlx_clear_window(mlx->mlx, mlx->win);
+	mlx->add_y_offset += dir;
+	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset  /  10;
 	ft_set_points(mlx->points[0][0].xo, mlx->points[0][0].yo, mlx);
 	ft_draw_wire(mlx);
 }

@@ -183,28 +183,20 @@ int key_press(int keycode, t_mlx *mlx)
 		close_win((void*)0);
 	//	LEFT
 	if (keycode == 65363 || keycode == 1751)
-	{
-		mlx_clear_window(mlx->mlx, mlx->win);
 		ft_move_hor(mlx, -mlx->delta_y);
-	}
 	//	RIGHT
 	if (keycode == 65361 || keycode == 1734)
-	{
-		mlx_clear_window(mlx->mlx, mlx->win);
 		ft_move_hor(mlx, mlx->delta_y);
-	}
 	//	UP
 	if (keycode == 65364 || keycode == 1753)
-	{
-		mlx_clear_window(mlx->mlx, mlx->win);
 		ft_move_vert(mlx, -mlx->delta_y);
-	}
 	//	DOWN
 	if (keycode == 65362  || keycode == 1731)
-	{
-		mlx_clear_window(mlx->mlx, mlx->win);
 		ft_move_vert(mlx, mlx->delta_y);
-	}
+	if (keycode == 65453)
+		ft_height(mlx, -1);
+	if (keycode == 65451)
+		ft_height(mlx, 1);
 	return (0);
 }
 
@@ -221,7 +213,8 @@ int 	main(int argc, char const *argv[])
 	// k = 1.73
 	mlx->delta_y = 21;
 	mlx->delta_x = mlx->delta_y * 1.73;
-	mlx->y_offset = mlx->delta_y / 10;
+	mlx->add_y_offset = 1;
+	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset;
 
 	mlx->map_file = argv[1];
 

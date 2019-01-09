@@ -27,6 +27,7 @@ void	ft_move_hor(t_mlx *mlx, int dir)
 		}
 		x++;
 	}
+	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_draw_wire(mlx);
 }
 
@@ -45,5 +46,6 @@ void	ft_move_vert(t_mlx *mlx, int dir)
 		}
 		x++;
 	}
+	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_draw_wire(mlx);
 }

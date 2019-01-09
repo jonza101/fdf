@@ -51,6 +51,7 @@ typedef	struct	s_mlx
 	double		delta_x;
 	double		delta_y;
 	double		y_offset;
+	double		add_y_offset;
 
 	int			x_b;
 	int			y_b;
@@ -75,11 +76,12 @@ int		ft_abs(int value);
 void	draw_circle(int x, int y, t_mlx *mlx);
 
 void	ft_draw_wire(t_mlx *mlx);
+void	ft_set_points(int x, int y, t_mlx *mlx);
 
 void	ft_move_hor(t_mlx *mlx, int dir);
 void	ft_move_vert(t_mlx *mlx, int dir);
 
 void	ft_zoom(t_mlx *mlx, int dir);
-void	ft_set_points(int x, int y, t_mlx *mlx);
+void	ft_height(t_mlx *mlx, int dir);
 
 #endif
