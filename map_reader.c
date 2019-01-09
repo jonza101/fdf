@@ -6,11 +6,24 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:06:57 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2018/12/26 17:57:56 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/05 20:53:39 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void    ft_points(t_mlx *mlx)
+{
+    int x = 0;
+	int y;
+	mlx->points = malloc(sizeof(t_point*) * mlx->row + 1);
+	while (x < mlx->row + 1)
+	{
+		y = 0;
+		mlx->points[x] = malloc(sizeof(t_point) * mlx->col + 1);
+		x++;
+	}
+}
 
 void    ft_row_col_check(char *map, t_mlx *mlx)
 {
@@ -24,11 +37,9 @@ void    ft_row_col_check(char *map, t_mlx *mlx)
     while (ar[x])
     {
         col++;
-        //printf("%s ", ar[x]);
         x++;
     }
     mlx->col = col;
-    //printf("\n");
 }
 
 char    **ft_read_map(char *map)
@@ -71,17 +82,4 @@ void    ft_map(t_mlx *mlx)
         x++;
     }
     close(file);
-    // x = 0;
-    // while (x < mlx->row)
-    // {
-    //     y = 0;
-    //     while (y < mlx->col)
-    //     {
-    //         printf("%d ", mlx->map[x][y]);
-    //         y++;
-    //     }
-    //     printf("\n");
-    //     x++;
-    // }
-    //printf("\nrow: %d       col: %d\n", mlx->row, mlx->col);
 }
