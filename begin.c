@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   center.c                                           :+:      :+:    :+:   */
+/*   begin.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/06 18:20:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/06 18:44:48 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/01/11 15:57:20 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/01/11 23:40:37 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_center(t_mlx *mlx)
+void    ft_begin(t_mlx *mlx)
 {
-	int height;
-	int width;
+    printf("row: %d         col: %d\n", mlx->row, mlx->col);
+    int offset = ft_sqrt(mlx->row * mlx->row + mlx->col * mlx->col);
+    printf("offset: %d\n", offset);
+    mlx->x_b = 1150;// - offset;// * mlx->delta_x;
+    mlx->y_b = 0;//offset;// * mlx->delta_y;
+}
 
-	height = ft_abs(mlx->points[0][0].yo - mlx->points[mlx->row - 1][mlx->col - 1].yo);
-	width = ft_abs(mlx->points[mlx->row - 1][0].xo - mlx->points[0][mlx->col - 1].xo);
+void    ft_offset(t_mlx *mlx)
+{
 
-	mlx->cent_x = width / 2 + mlx->points[mlx->row - 1][0].xo;
-	mlx->cent_y = height / 2 + mlx->points[0][0].yo;
-	draw_circle(mlx->cent_x, mlx->cent_y, mlx);
 }

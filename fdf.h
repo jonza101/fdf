@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:07:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/06 19:35:25 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/11 19:01:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ typedef	struct	s_mlx
 
 	t_point		**points;
 
-	int			cent_x;
-	int			cent_y;
-
 	int			last_offset;
+
+	int			min;
+	int			max;
+	int			count;
 
 	double		delta_x;
 	double		delta_y;
@@ -66,15 +67,14 @@ void	ft_map(t_mlx *mlx);
 void	ft_row_col_check(char *map, t_mlx *mlx);
 char	**ft_read_map(char *map);
 
-void	ft_rotate(t_mlx *mlx);
-void	ft_draw_line(int x, int y, t_mlx *mlx, int offset, int temp_x, int temp_y);
+void	ft_draw_line(int x, int y, t_mlx *mlx, int offset);
 
 void    ft_points(t_mlx *mlx);
 
-void	ft_center(t_mlx *mlx);
 int		ft_abs(int value);
 void	draw_circle(int x, int y, t_mlx *mlx);
 
+void    ft_begin(t_mlx *mlx);
 void	ft_draw_wire(t_mlx *mlx);
 void	ft_set_points(int x, int y, t_mlx *mlx);
 

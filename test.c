@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/06 20:35:04 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/12 00:18:56 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	draw_circle(int x, int y, t_mlx *mlx)
 
 /*	ONE LINE	*/
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-void	ft_draw_line(int x, int y, t_mlx *mlx, int offset, int temp_x, int temp_y)
+void	ft_draw_line(int x, int y, t_mlx *mlx, int offset)
 {
 	y = y - offset;
 
@@ -131,11 +131,6 @@ void	ft_draw_line(int x, int y, t_mlx *mlx, int offset, int temp_x, int temp_y)
 	}
 	mlx->xo = x;
 	mlx->yo = y;
-	if (temp_x >= 0 && temp_y >= 0)
-	{
-		mlx->points[temp_x][temp_y].xo = x;
-		mlx->points[temp_x][temp_y].yo = y;
-	}
 }
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -151,16 +146,6 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 
 	if (mouse_button_check(button) == 2)
 		draw_circle(x, y, mlx);
-
-	if (mouse_button_check(button) == 1)
-	{
-		ft_map(mlx);
-		ft_points(mlx);
-
-		ft_set_points(x, y, mlx);
-		ft_draw_wire(mlx);
-		ft_center(mlx);
-	}
 	return (0);
 }
 
@@ -210,18 +195,32 @@ int 	main(int argc, char const *argv[])
 
 	mlx = malloc(sizeof(t_mlx));
 
-	// k = 1.73
-	mlx->delta_y = 21;
-	mlx->delta_x = mlx->delta_y * 1.73;
-	mlx->add_y_offset = 1;
-	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset;
-
 	mlx->map_file = argv[1];
 
 	win_mlx = mlx_init();
 	win = mlx_new_window(win_mlx, 1920, 1080, "FDF");
 	mlx->mlx = win_mlx;
 	mlx->win = win;
+
+	ft_map(mlx);
+	ft_points(mlx);
+
+	// k = 1.73
+	mlx->delta_y = 5;
+	printf("delta_y: %f\n", mlx->delta_y);
+	mlx->delta_x = mlx->delta_y * 1.73;
+
+	ft_begin(mlx);
+	
+	mlx->add_y_offset = ft_sqrt(mlx->count) * ft_sqrt(mlx->count) * 2;
+	// if (mlx->count < 15)
+	// 	mlx->add_y_offset = mlx->count * 4;
+	// else
+	// 	mlx->add_y_offset = mlx->count;
+	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset  /  10;
+
+	ft_set_points(mlx->x_b, mlx->y_b, mlx);
+	ft_draw_wire(mlx);
 
 	mlx_hook(win, 2, 1, key_press, mlx);
 	mlx_hook(win, 3, 2, key_release, (void*)0);

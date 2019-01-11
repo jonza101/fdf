@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:58:33 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/06 20:38:39 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:32:28 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	ft_set_points(int x, int y, t_mlx *mlx)
 		while (temp_y < mlx->col)
 		{
 			mlx->points[temp_x][temp_y].xo = new_x;
-			mlx->points[temp_x][temp_y].yo = new_y - mlx->map[temp_x][temp_y] * mlx->y_offset;
+			if (mlx->map[temp_x][temp_y] !=	mlx->map[0][0])
+				mlx->points[temp_x][temp_y].yo = new_y - mlx->map[temp_x][temp_y] * mlx->y_offset;
+			else
+				mlx->points[temp_x][temp_y].yo = new_y;
 			new_x += mlx->delta_x;
 			new_y += mlx->delta_y;
 			temp_y++;
@@ -49,6 +52,8 @@ void	ft_set_points(int x, int y, t_mlx *mlx)
 		new_y = mlx->new_row_y;
 		temp_x++;
 	}
+	mlx->points[0][0].xo = mlx->x_b;
+	mlx->points[0][0].yo = mlx->y_b;
 }
 
 void	ft_draw_right(t_mlx *mlx)
@@ -68,7 +73,7 @@ void	ft_draw_right(t_mlx *mlx)
 		}
 		while (y < mlx->col - 1)
 		{
-			ft_draw_line(mlx->points[x][y + 1].xo, mlx->points[x][y + 1].yo, mlx, 0, -1, -1);
+			ft_draw_line(mlx->points[x][y + 1].xo, mlx->points[x][y + 1].yo, mlx, 0);
 			y++;
 		}
 		mlx->xo = mlx->new_row_xo;
@@ -94,7 +99,7 @@ void	ft_draw_left(t_mlx *mlx)
 		}
 		while (y < mlx->row - 1)
 		{
-			ft_draw_line(mlx->points[y + 1][x].xo, mlx->points[y + 1][x].yo, mlx, 0, -1, -1);
+			ft_draw_line(mlx->points[y + 1][x].xo, mlx->points[y + 1][x].yo, mlx, 0);
 			y++;
 		}
 		mlx->xo = mlx->new_row_xo;

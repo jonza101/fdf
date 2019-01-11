@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:06:57 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/05 20:53:39 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/11 19:26:46 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void    ft_map(t_mlx *mlx)
     file = open(mlx->map_file, O_RDONLY);
     int x = 0;
     int y;
+    mlx->min = 2147483647;
+    mlx->max = -2147483648;
+    mlx->count = 0;
     mlx->map = (int**)malloc(sizeof(int*) * mlx->row);
     while (x < mlx->row)
     {
@@ -77,6 +80,16 @@ void    ft_map(t_mlx *mlx)
         while (y < mlx->col)
         {
             mlx->map[x][y] = ft_atoi(temp[y]);
+            if (mlx->map[x][y] > mlx->max)
+            {
+                mlx->count++;
+                mlx->max = mlx->map[x][y];
+            }
+            if (mlx->map[x][y] < mlx->min)
+            {
+                mlx->count++;
+                mlx->min = mlx->map[x][y];
+            }
             y++;
         }
         x++;
