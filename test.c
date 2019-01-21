@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/12 00:18:56 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/16 19:42:53 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ int		ft_abs(int value)
 int		close_win(void *param)
 {
 	exit(0);
-	return (0);
-}
-
-int		mouse_release(int button, int x, int y, t_mlx *mlx)
-{
 	return (0);
 }
 
@@ -92,12 +87,12 @@ void	draw_circle(int x, int y, t_mlx *mlx)
 	}
 }
 
-
 /*	ONE LINE	*/
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 void	ft_draw_line(int x, int y, t_mlx *mlx, int offset)
 {
-	y = y - offset;
+	y = y - (offset - mlx->last_offset);
+	mlx->last_offset = offset;
 
 	int angle_x = ft_abs(x - mlx->xo);
 	int angle_y = ft_abs(y - mlx->yo);
@@ -121,7 +116,6 @@ void	ft_draw_line(int x, int y, t_mlx *mlx, int offset)
 		{
 			error -= angle_y;
 			mlx->xo += delta_x;
-
 		}
 		else if (error * 2 < angle_x)
 		{
@@ -134,7 +128,6 @@ void	ft_draw_line(int x, int y, t_mlx *mlx, int offset)
 }
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-
 int		mouse_press(int button, int x, int y, t_mlx *mlx)
 {
 	if (mouse_button_check(button) == 4)
@@ -146,12 +139,6 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 
 	if (mouse_button_check(button) == 2)
 		draw_circle(x, y, mlx);
-	return (0);
-}
-
-int mouse_move(int x, int y, t_mlx *mlx)
-{
-	// printf("x: %d		y: %d\n", x, y);
 	return (0);
 }
 
@@ -188,7 +175,6 @@ int key_press(int keycode, t_mlx *mlx)
 int 	main(int argc, char const *argv[])
 {
 	int file;
-
 	void	*win_mlx;
 	void	*win;
 	t_mlx	*mlx;
@@ -205,19 +191,22 @@ int 	main(int argc, char const *argv[])
 	ft_map(mlx);
 	ft_points(mlx);
 
-	// k = 1.73
-	mlx->delta_y = 5;
-	printf("delta_y: %f\n", mlx->delta_y);
+	mlx->delta_y = 800 / (mlx->row + mlx->col);
+	if (mlx->delta_y < 1)
+		mlx->delta_y = 1;
 	mlx->delta_x = mlx->delta_y * 1.73;
 
-	ft_begin(mlx);
-	
-	mlx->add_y_offset = ft_sqrt(mlx->count) * ft_sqrt(mlx->count) * 2;
-	// if (mlx->count < 15)
-	// 	mlx->add_y_offset = mlx->count * 4;
-	// else
-	// 	mlx->add_y_offset = mlx->count;
+	if (mlx->max < 15)
+		mlx->add_y_offset = mlx->max * 5;
+	else
+		mlx->add_y_offset = ft_sqrt(mlx->max);
+	if (mlx->add_y_offset <= 10)
+		mlx->add_y_offset = 15;
 	mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset  /  10;
+
+	mlx->last_offset = mlx->map[0][0] * mlx->y_offset;
+
+	ft_begin(mlx);
 
 	ft_set_points(mlx->x_b, mlx->y_b, mlx);
 	ft_draw_wire(mlx);
@@ -225,9 +214,7 @@ int 	main(int argc, char const *argv[])
 	mlx_hook(win, 2, 1, key_press, mlx);
 	mlx_hook(win, 3, 2, key_release, (void*)0);
 	mlx_hook(win, 17, 3, close_win, (void*)0);
-	//mlx_hook(win, 6, 4, mouse_move, mlx);
 	mlx_hook(win, 4, 5, mouse_press, mlx);
-	//mlx_hook(win, 5, 6, mouse_release, mlx);
 
 	mlx_loop(win_mlx);
 }

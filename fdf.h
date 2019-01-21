@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:07:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/11 19:01:25 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/16 19:41:57 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ typedef	struct	s_mlx
 
 	int			last_offset;
 
-	int			min;
 	int			max;
-	int			count;
 
 	double		delta_x;
 	double		delta_y;
@@ -56,6 +54,9 @@ typedef	struct	s_mlx
 
 	int			x_b;
 	int			y_b;
+
+	int			x_cent;
+	int			y_cent;
 
 	int			new_row_xo;
 	int			new_row_yo;
@@ -83,5 +84,7 @@ void	ft_move_vert(t_mlx *mlx, int dir);
 
 void	ft_zoom(t_mlx *mlx, int dir);
 void	ft_height(t_mlx *mlx, int dir);
+
+void    ft_rotate(t_mlx *mlx, int dir);
 
 #endif
