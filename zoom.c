@@ -6,34 +6,53 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 19:17:01 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/24 16:29:27 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:57:38 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_zoom(t_mlx *mlx, int dir)
+void	ft_start_zoom(t_mlx *mlx, int *d, double dir)
 {
-	// mlx_clear_window(mlx->mlx, mlx->win);
-	// mlx->delta_y += dir;
-	// if (mlx->delta_y <= 0)
-	// 	mlx->delta_y = 0;
-	// mlx->delta_x = mlx->delta_y * 1.73;
-	// mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset / 10;
-	// ft_set_points(mlx->points[0][0].xo, mlx->points[0][0].yo, mlx);
-	// ft_center(mlx);
-	// ft_draw_wire(mlx);
+	if (dir < 1)
+		*d = -1;
+	else
+		*d = 1;
+	mlx->start_x = mlx->points[0][0].xo;
+	mlx->start_y = mlx->points[0][0].yo;
+	mlx->start_z = mlx->points[0][0].zo;
+}
+
+void	ft_zoom(t_mlx *mlx, double dir)
+{
+	int x;
+	int y;
+	int d;
+
+	ft_start_zoom(mlx, &d, dir);
+	x = 0;
+	while (x < mlx->row)
+	{
+		y = 0;
+		while (y < mlx->col)
+		{
+			mlx->points[x][y].xo += (mlx->points[x][y].xo * dir
+				- mlx->start_x * dir) * d;
+			mlx->points[x][y].yo += (mlx->points[x][y].yo * dir
+				- mlx->start_y * dir) * d;
+			mlx->points[x][y].zo += (mlx->points[x][y].zo * dir
+				- mlx->start_z * dir) * d;
+			y++;
+		}
+		x++;
+	}
+	mlx_clear_window(mlx->mlx, mlx->win);
+	ft_center(mlx);
+	ft_draw_wire(mlx);
 }
 
 void	ft_height(t_mlx *mlx, int dir)
 {
-	// mlx_clear_window(mlx->mlx, mlx->win);
-	// mlx->add_y_offset += dir;
-	// mlx->y_offset = mlx->delta_y / 10 * mlx->add_y_offset / 10;
-	// ft_set_points(mlx->points[0][0].xo, mlx->points[0][0].yo, mlx);
-	// ft_center(mlx);
-	// ft_draw_wire(mlx);
-
 	int		x;
 	int		y;
 	double	angle;
@@ -46,7 +65,7 @@ void	ft_height(t_mlx *mlx, int dir)
 		while (y < mlx->col)
 		{
 			if (mlx->map[0][0] != mlx->map[x][y])
-				mlx->points[x][y].yo = 
+				mlx->points[x][y].yo -= (dir * mlx->map[x][y]);
 			y++;
 		}
 		x++;

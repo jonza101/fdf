@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:58:33 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/24 16:11:39 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:30:05 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_set_points(int x, int y, t_mlx *mlx)
 {
-	int t_x;
+	int	t_x;
 	int t_y;
 
 	t_y = ft_start_points(mlx, x, y, &t_x);
@@ -23,22 +23,17 @@ void	ft_set_points(int x, int y, t_mlx *mlx)
 		ft_new_row(mlx, t_x, &t_y);
 		while (t_y < mlx->col)
 		{
-			mlx->points[t_x][t_y].xo = mlx->new_x;
 			mlx->points[t_x][t_y].zo = mlx->map[t_x][t_y] * mlx->y_offset;
-			if (mlx->map[t_x][t_y] != mlx->map[0][0])
-				mlx->points[t_x][t_y].yo = mlx->new_y - mlx->points[t_x][t_y].zo;
-			else
-				mlx->points[t_x][t_y].yo = mlx->new_y;
+			mlx->points[t_x][t_y].xo = mlx->new_x;
+			mlx->points[t_x][t_y].yo = mlx->new_y;
 			mlx->new_x += mlx->delta_x;
-			mlx->new_y += mlx->delta_y;	
+			mlx->new_y += mlx->delta_y;
 			t_y++;
 		}
 		ft_new_row_next(mlx);
 		t_x++;
 	}
 	mlx->points[0][0].xo = mlx->x_b;
-	mlx->points[0][0].yo = mlx->y_b;
-	//ft_iso(mlx);
 }
 
 void	ft_draw_right(t_mlx *mlx)

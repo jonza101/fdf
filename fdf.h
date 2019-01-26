@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:07:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/24 14:53:35 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:48:10 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 
 typedef	struct	s_point
 {
-	double			xo;
-	double			yo;
-	double			zo;
+	double		xo;
+	double		yo;
+	double		zo;
 }				t_point;
 
 typedef	struct	s_mlx
@@ -56,23 +56,27 @@ typedef	struct	s_mlx
 	int			delta_x_line;
 	int			delta_y_line;
 
-	double			x_b;
-	double			y_b;
+	double		x_b;
+	double		y_b;
 
 	int			x_cent;
 	int			y_cent;
 
-	double			new_row_xo;
-	double			new_row_yo;
-	double			new_row_x;
-	double			new_row_y;
+	double		new_row_xo;
+	double		new_row_yo;
+	double		new_row_x;
+	double		new_row_y;
 
-	double			new_x;
-	double			new_y;
+	double		new_x;
+	double		new_y;
 
-	int				x;
-	int				y;
-	int				z;
+	int			x;
+	int			y;
+	int			z;
+
+	double		start_x;
+	double		start_y;
+	double		start_z;
 }				t_mlx;
 
 void			ft_map(t_mlx *mlx);
@@ -94,7 +98,7 @@ void			ft_set_points(int x, int y, t_mlx *mlx);
 void			ft_move_hor(t_mlx *mlx, int dir);
 void			ft_move_vert(t_mlx *mlx, int dir);
 
-void			ft_zoom(t_mlx *mlx, int dir);
+void			ft_zoom(t_mlx *mlx, double dir);
 void			ft_height(t_mlx *mlx, int dir);
 
 int				ft_start_points(t_mlx *mlx, int x, int y, int *t_x);
@@ -108,6 +112,7 @@ void			ft_rotate_x(t_mlx *mlx, int dir);
 void			ft_rotate_y(t_mlx *mlx, int dir);
 void			ft_rotate_z(t_mlx *mlx, int dir);
 
-void			ft_iso(t_mlx *mlx);
+void			ft_temp_key_press(int keycode, t_mlx *mlx);
+void			ft_start_main(t_mlx *mlx);
 
 #endif

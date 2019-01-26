@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:53:44 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/23 17:45:50 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:48:03 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,4 @@ int		ft_pow(int nb, int pow)
 		pow--;
 	}
 	return (res);
-}
-
-void	ft_iso(t_mlx *mlx)
-{
-	int x;
-	int y;
-
-	x = 0;
-	while (x < mlx->row)
-	{
-		y = 0;
-		while (y < mlx->col)
-		{
-			mlx->points[x][y].xo = (mlx->points[x][y].xo - mlx->map[x][y] * mlx->y_offset) * cos(0.523599);
-			mlx->points[x][y].yo = -(mlx->points[x][y].yo) + (mlx->points[x][y].xo + mlx->map[x][y] * mlx->y_offset) * sin(0.523599);
-			mlx->points[x][y].xo = (mlx->points[x][y].xo + mlx->map[x][y] * mlx->y_offset) * cos(0.523599);
-			mlx->points[x][y].yo = (mlx->points[x][y].xo - mlx->map[x][y] * mlx->y_offset) * sin(0.523599) - mlx->points[x][y].yo;
-			y++;
-		}
-		x++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 15:57:20 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/23 14:56:38 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:48:16 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_set_delta(t_mlx *mlx)
 {
-	mlx->delta_y = 1300 / (mlx->row + mlx->col);
-	mlx->delta_x = mlx->delta_y * 1.73;
+	mlx->delta_y = 1620 / (mlx->row + mlx->col);
+	mlx->delta_x = mlx->delta_y;
 	if (mlx->max < 15)
 		mlx->add_y_offset = mlx->max * 5;
 	else
@@ -42,8 +42,4 @@ void	ft_begin(t_mlx *mlx)
 	else
 		mlx->x_b = 1440;
 	mlx->y_b = 2 * offset_y;
-	// mlx->x_b = 1440 - mlx->delta_y * mlx->row;
-	// mlx->y_b = (offset_y + mlx->y_offset + mlx->add_y_offset) * 1;//mlx->delta_y;
-	printf("add y offset: %f			y offset: %f\n", mlx->add_y_offset, mlx->y_offset);
-	//printf("x %d		y: %d\n", mlx->x_b, mlx->y_b);
 }

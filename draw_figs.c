@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:18:22 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/24 14:54:47 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:48:26 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_draw_line_start(t_mlx *mlx, int x, int y)
 		mlx->delta_y_line = -1;
 	else
 		mlx->delta_y_line = 1;
+	mlx_pixel_put(mlx->mlx, mlx->win, x, y, 0xFF00FF);
 }
 
 void	ft_draw_line_end(t_mlx *mlx, int x, int y)
@@ -40,7 +41,6 @@ void	ft_draw_line(int x, int y, t_mlx *mlx)
 	angle_y = ft_abs(y - mlx->yo);
 	error = angle_x - angle_y;
 	ft_draw_line_start(mlx, x, y);
-	mlx_pixel_put(mlx->mlx, mlx->win, x, y, 0xFF00FF);
 	while (mlx->xo != x || mlx->yo != y)
 	{
 		mlx_pixel_put(mlx->mlx, mlx->win, mlx->xo, mlx->yo, 0xFF00FF);
