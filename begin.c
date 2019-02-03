@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 15:57:20 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/25 15:48:16 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:10:04 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_set_delta(t_mlx *mlx)
 {
-	mlx->delta_y = 1620 / (mlx->row + mlx->col);
+	mlx->delta_y = 1220 / (mlx->row + mlx->col);
 	mlx->delta_x = mlx->delta_y;
 	if (mlx->max < 15)
 		mlx->add_y_offset = mlx->max * 5;

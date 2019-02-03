@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:57:33 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/24 14:54:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:09:00 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_move_hor(t_mlx *mlx, int dir)
 	}
 	ft_center(mlx);
 	mlx_clear_window(mlx->mlx, mlx->win);
-	ft_draw_wire(mlx);
+	ft_draw_wire(mlx, 0);
 }
 
 void	ft_move_vert(t_mlx *mlx, int dir)
@@ -51,5 +51,5 @@ void	ft_move_vert(t_mlx *mlx, int dir)
 	}
 	ft_center(mlx);
 	mlx_clear_window(mlx->mlx, mlx->win);
-	ft_draw_wire(mlx);
+	ft_draw_wire(mlx, 0);
 }

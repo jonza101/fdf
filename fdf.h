@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:07:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/25 15:48:10 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:07:07 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ typedef	struct	s_mlx
 {
 	void		*mlx;
 	void		*win;
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			size_line;
+	int			endian;
+
 	int			xo;
 	int			yo;
 
@@ -92,7 +98,7 @@ int				ft_edited_sqrt(int nb);
 int				ft_pow(int nb, int pow);
 
 void			ft_begin(t_mlx *mlx);
-void			ft_draw_wire(t_mlx *mlx);
+void			ft_draw_wire(t_mlx *mlx, int begin);
 void			ft_set_points(int x, int y, t_mlx *mlx);
 
 void			ft_move_hor(t_mlx *mlx, int dir);

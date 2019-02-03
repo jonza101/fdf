@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:58:33 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/25 15:30:05 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:08:20 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,15 @@ void	ft_draw_left(t_mlx *mlx)
 	}
 }
 
-void	ft_draw_wire(t_mlx *mlx)
+void	ft_draw_wire(t_mlx *mlx, int begin)
 {
+	if (begin == 0)
+	{
+		mlx_destroy_image(mlx->mlx, mlx->img);
+		mlx->img = mlx_new_image(mlx->mlx, 2880, 1620);
+		mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
+	}
 	ft_draw_right(mlx);
 	ft_draw_left(mlx);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }

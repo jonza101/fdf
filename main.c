@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/25 15:48:40 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:08:32 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ int		main(int argc, char const *argv[])
 	mlx->map_file = argv[1];
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 2880, 1620, "FDF");
+	mlx->img = mlx_new_image(mlx->mlx, 2880, 1620);
+	mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
 	ft_map(mlx);
 	ft_points(mlx);
 	ft_set_delta(mlx);
 	ft_begin(mlx);
 	ft_set_points(mlx->x_b, mlx->y_b, mlx);
-	ft_draw_wire(mlx);
+	ft_draw_wire(mlx, 1);
 	ft_center(mlx);
 	mlx_hook(mlx->win, 2, 0, key_press, mlx);
 	mlx_hook(mlx->win, 3, 1, key_release, mlx);
