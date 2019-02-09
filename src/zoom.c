@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 19:17:01 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 16:09:12 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/09 13:58:35 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 void	ft_start_zoom(t_mlx *mlx, int *d, double dir)
 {
@@ -46,7 +46,6 @@ void	ft_zoom(t_mlx *mlx, double dir)
 		}
 		x++;
 	}
-	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_center(mlx);
 	ft_draw_wire(mlx, 0);
 }
@@ -65,12 +64,11 @@ void	ft_height(t_mlx *mlx, int dir)
 		while (y < mlx->col)
 		{
 			if (mlx->map[0][0] != mlx->map[x][y])
-				mlx->points[x][y].yo -= (dir * mlx->map[x][y]);
+				mlx->points[x][y].yo -= (dir * mlx->map[x][y] * 0.1);
 			y++;
 		}
 		x++;
 	}
-	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_center(mlx);
 	ft_draw_wire(mlx, 0);
 }

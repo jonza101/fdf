@@ -1,51 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   funcs.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/21 16:53:44 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/25 15:48:03 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/02/08 15:56:19 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/02/08 18:56:17 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
-int		ft_abs(int value)
+void	ft_error_mes(void)
 {
-	if (value < 0)
-		return (-value);
-	return (value);
+	ft_putstr("Usage: ./fdf [map]\n");
+	exit(0);
 }
 
-int		ft_edited_sqrt(int nb)
+void	ft_valid_map_error(void)
 {
-	int i;
-
-	i = 1;
-	while (i <= nb / i)
-	{
-		if (i * i == nb)
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
-int		ft_pow(int nb, int pow)
-{
-	int res;
-
-	res = 1;
-	if (pow < 0)
-		return (0);
-	if (pow == 0)
-		return (1);
-	while (pow > 0)
-	{
-		res *= nb;
-		pow--;
-	}
-	return (res);
+	ft_putstr("Found wrong line length. Exiting.\n");
+	exit(0);
 }

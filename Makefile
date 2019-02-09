@@ -6,29 +6,56 @@
 #    By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 15:20:54 by zjeyne-l          #+#    #+#              #
-#    Updated: 2019/01/31 13:39:42 by zjeyne-l         ###   ########.fr        #
+#    Updated: 2019/02/08 19:17:46 by zjeyne-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+SRC_DIR = src
+INC_DIR = inc
+OBJ_DIR = obj
 
-FLAGS = -Wall -Wextra -Werror
+# PATHS TO C SOURCE FILES
+SRC_PATH = $(wildcard $(SRC_DIR)/*.c)
+SRC_PATH += get_next_line/get_next_line.c
 
-INCLUDE = -Ifdf.h
+# PATHS TO OBJECTS
+OBJ_PATH = $(SRC_PATH:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+# PATH TO LIBFT
+LIB_NAME = get_next_line/libft/libft.a
+LIB_PATH = get_next_line/libft
+LIB = -lft
+
+# MLX INFO
 MLX = -lmlx -framework OpenGL -framework AppKit
 
-SRC = main.c map_reader.c move.c zoom.c draw_wire.c draw_figs.c temp_funcs.c funcs.c begin.c rotate.c get_next_line/get_next_line.c get_next_line/libft/libft.a
+# COMPILATION RULES
+CC = gcc
+FLAGS = -Wall -Wextra -Werror
+NAME = fdf
 
-all: $(NAME)
+.PHONY: all clean fclean re
 
-$(NAME):
-	gcc $(FLAGS) $(SRC) $(INCLUDE) $(MLX) -o $(NAME)
+all: $(OBJ_DIR) $(NAME)
+
+$(NAME): $(OBJ_PATH) $(LIB_PATH)/$(LIB_NAME)
+	$(CC) $(FLAGS) $(OBJ_PATH) -o $@ -I$(INC_DIR) -I$(LIB_PATH)/$(INC_DIR) -L$(LIB_PATH) $(LIB) $(MLX) 
+
+$(OBJ_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(FLAGS) -o $@ -c $< -I$(INC_DIR) -I$(LIB_PATH)/$(INC_DIR)
+
+$(LIB_PATH)/$(LIB_NAME):
+	make -C $(LIB_PATH)
 
 clean:
-	rm -rf get_next_line/libft/*.o
+	rm -rf $(OBJ_DIR)
+	make -C $(LIB_PATH) clean
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
+	make -C $(LIB_PATH) fclean
 
 re: fclean all

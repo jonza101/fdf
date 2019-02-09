@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 19:11:36 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 16:08:44 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/08 19:34:14 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 void	ft_center(t_mlx *mlx)
 {
@@ -45,7 +45,6 @@ void	ft_rotate_z(t_mlx *mlx, int dir)
 		}
 		x++;
 	}
-	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_center(mlx);
 	ft_draw_wire(mlx, 0);
 }
@@ -72,7 +71,6 @@ void	ft_rotate_y(t_mlx *mlx, int dir)
 		}
 		x++;
 	}
-	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_center(mlx);
 	ft_draw_wire(mlx, 0);
 }
@@ -99,7 +97,6 @@ void	ft_rotate_x(t_mlx *mlx, int dir)
 		}
 		x++;
 	}
-	mlx_clear_window(mlx->mlx, mlx->win);
 	ft_center(mlx);
 	ft_draw_wire(mlx, 0);
 }

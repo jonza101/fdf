@@ -6,34 +6,47 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:58:33 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 16:08:20 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/09 14:16:46 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
+
+void	ft_set_temp(int *t_y, t_mlx *mlx)
+{
+	*t_y = -1;
+	mlx->new_x = mlx->x_b + mlx->delta_x;
+	mlx->new_row_yo = mlx->yo + mlx->delta_x;
+	mlx->new_row_xo = mlx->x_b;
+}
 
 void	ft_set_points(int x, int y, t_mlx *mlx)
 {
-	int	t_x;
+	int t_x;
 	int t_y;
 
-	t_y = ft_start_points(mlx, x, y, &t_x);
-	while (t_x < mlx->row)
+	t_x = -1;
+	mlx->xo = x;
+	mlx->yo = y;
+	mlx->new_y = mlx->yo;
+	while (++t_x < mlx->row)
 	{
-		ft_new_row(mlx, t_x, &t_y);
-		while (t_y < mlx->col)
+		ft_set_temp(&t_y, mlx);
+		while (++t_y < mlx->col)
 		{
 			mlx->points[t_x][t_y].zo = mlx->map[t_x][t_y] * mlx->y_offset;
-			mlx->points[t_x][t_y].xo = mlx->new_x;
-			mlx->points[t_x][t_y].yo = mlx->new_y;
+			mlx->points[t_x][t_y].xo = mlx->xo;
+			mlx->points[t_x][t_y].yo = mlx->yo;
+			mlx->xo = mlx->new_x;
 			mlx->new_x += mlx->delta_x;
-			mlx->new_y += mlx->delta_y;
-			t_y++;
 		}
-		ft_new_row_next(mlx);
-		t_x++;
+		mlx->xo = mlx->x_b;
+		mlx->yo = mlx->new_row_yo;
+		mlx->new_y = mlx->yo;
 	}
-	mlx->points[0][0].xo = mlx->x_b;
+	mlx->points[0][0].xo = mlx->points[0][1].xo - mlx->delta_x;
+	mlx->points[0][0].yo = mlx->points[0][1].yo;
+	mlx->points[0][0].zo = mlx->map[0][0] * mlx->y_offset;
 }
 
 void	ft_draw_right(t_mlx *mlx)
@@ -98,7 +111,6 @@ void	ft_draw_wire(t_mlx *mlx, int begin)
 	{
 		mlx_destroy_image(mlx->mlx, mlx->img);
 		mlx->img = mlx_new_image(mlx->mlx, 2880, 1620);
-		mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
 	}
 	ft_draw_right(mlx);
 	ft_draw_left(mlx);

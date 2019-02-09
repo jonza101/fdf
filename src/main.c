@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:31:32 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 16:08:32 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/09 14:11:44 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 int		close_win(void *param)
 {
@@ -34,20 +34,25 @@ int		key_press(int keycode, t_mlx *mlx)
 {
 	if (keycode == 53)
 		exit(0);
+	if (keycode == 15)
+	{
+		ft_set_points(mlx->x_b, mlx->y_b, mlx);
+		ft_draw_wire(mlx, 0);
+	}
 	if (keycode == 124 || keycode == 2)
-		ft_move_hor(mlx, -mlx->row / 2);
+		ft_move_hor(mlx, -mlx->delta_x);
 	if (keycode == 123 || keycode == 0)
-		ft_move_hor(mlx, mlx->row / 2);
+		ft_move_hor(mlx, mlx->delta_x);
 	if (keycode == 125 || keycode == 1)
-		ft_move_vert(mlx, -mlx->row / 2);
+		ft_move_vert(mlx, -mlx->delta_x);
 	if (keycode == 126 || keycode == 13)
-		ft_move_vert(mlx, mlx->row / 2);
+		ft_move_vert(mlx, mlx->delta_x);
 	if (keycode == 27)
 		ft_height(mlx, -1);
 	if (keycode == 24)
 		ft_height(mlx, 1);
 	if (keycode == 78 && mlx->x == 0 && mlx->y == 0 && mlx->z == 0)
-		ft_zoom(mlx, 0.25);
+		ft_zoom(mlx, 0.1);
 	if (keycode == 69 && mlx->x == 0 && mlx->y == 0 && mlx->z == 0)
 		ft_zoom(mlx, 1);
 	ft_temp_key_press(keycode, mlx);
@@ -61,7 +66,7 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 	if (button == 4 && mlx->x == 0 && mlx->y == 0 && mlx->z == 0)
 		ft_zoom(mlx, 1);
 	if (button == 5 && mlx->x == 0 && mlx->y == 0 && mlx->z == 0)
-		ft_zoom(mlx, -1);
+		ft_zoom(mlx, 0.1);
 	if (button == 4 && mlx->x == 1 && mlx->y == 0 && mlx->z == 0)
 		ft_rotate_x(mlx, 1);
 	if (button == 5 && mlx->x == 1 && mlx->y == 0 && mlx->z == 0)
@@ -82,17 +87,15 @@ int		main(int argc, char const *argv[])
 	t_mlx	*mlx;
 
 	if (argc != 2)
-	{
-		ft_putstr("Error!\n");
-		exit(0);
-	}
+		ft_error_mes();
 	mlx = malloc(sizeof(t_mlx));
 	ft_start_main(mlx);
 	mlx->map_file = argv[1];
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 2880, 1620, "FDF");
 	mlx->img = mlx_new_image(mlx->mlx, 2880, 1620);
-	mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
+	mlx->data = (int*)mlx_get_data_addr(mlx->img, &mlx->bpp,
+		&mlx->size_line, &mlx->endian);
 	ft_map(mlx);
 	ft_points(mlx);
 	ft_set_delta(mlx);

@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 20:06:57 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/22 14:49:28 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/09 14:37:50 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 void	ft_points(t_mlx *mlx)
 {
@@ -27,7 +27,7 @@ void	ft_points(t_mlx *mlx)
 	}
 }
 
-void	ft_row_col_check(char *map, t_mlx *mlx)
+void	ft_row_col_check(char *map, t_mlx *mlx, int begin)
 {
 	int		x;
 	int		col;
@@ -43,6 +43,10 @@ void	ft_row_col_check(char *map, t_mlx *mlx)
 		x++;
 	}
 	mlx->col = col;
+	if (begin == 1)
+		mlx->f_col = col;
+	if (mlx->f_col != col)
+		ft_valid_map_error();
 }
 
 char	**ft_read_map(char *map)
@@ -81,16 +85,18 @@ void	ft_map(t_mlx *mlx)
 	char	**temp;
 	char	*line;
 	int		file;
+	int		i;
 
+	i = 1;
 	temp = NULL;
 	mlx->max = -2147483648;
 	mlx->row = 0;
 	file = open(mlx->map_file, O_RDONLY);
-	while (1)
+	(file < 0) ? ft_error_mes() : 1;
+	while (get_next_line(file, &line) == 1)
 	{
-		while (get_next_line(file, &line) == 1)
-			ft_row_col_check(line, mlx);
-		break ;
+		ft_row_col_check(line, mlx, i);
+		i++;
 	}
 	close(file);
 	file = open(mlx->map_file, O_RDONLY);
